@@ -25,7 +25,11 @@ const TIMEOUT = 500; // give time to load jsFeat
 // Code
 var twitterOAuth;
 
-var postBody = "Default Tweet, You didn't input anything!"
+var postBody = {
+  'status': "Default Tweet, You didn't input anything!",
+  'lat': 49.9028729,
+  'long': 8.85785939,
+}
 
 // console.log('Ready to Tweet article:\n\t', postBody.status);
 // oauth.post('https://api.twitter.com/1.1/statuses/update.json',
@@ -41,26 +45,7 @@ var postBody = "Default Tweet, You didn't input anything!"
 // 		}
 // 	});
 
-let video, canvas, ctx, ctx2, ticks = 0, domResult, flag = true, img1, i =0
-
-// var provider = 'facebook';
-//
-// OAuth.popup(provider)
-// .done(function(result) {
-//     result.me()
-//     .done(function (response) {
-//         console.log('Firstname: ', response.firstname);
-//         console.log('Lastname: ', response.lastname);
-//     })
-//     .fail(function (err) {
-//         //handle error with err
-//     });
-// })
-// .fail(function (err) {
-//     //handle error with err
-// });
-
-
+let video, canvas, ctx, ctx2, ticks = 0, domResult, flag = true, img1, i =0, coords
 
 const constraints = {
   audio: false,
@@ -72,6 +57,15 @@ const constraints = {
 //
 const handleSuccess = (stream) => {
   console.log(' --- stream success');
+  if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          coords = position.coords;
+          postBody.lat = coords.latitude;
+          postBody.long = coords.longitude;
+        });
+    } else {
+        console.log(" --- Geolocation is not supported by this browser.");
+    }
 	domResult = document.querySelector('#ocr').firstChild;
   video = document.querySelector('#video')
   canvas = document.querySelector('#canvas')
@@ -86,7 +80,9 @@ const handleSuccess = (stream) => {
       if (event.key == 'p') console.log(postBody);
       if (event.key == "P") {
         twitterOAuth.post({
-            url: "/1.1/statuses/update.json?status=" + encodeURI(postBody)
+            //url: "/1.1/statuses/update.json?status=" + encodeURI(postBody)
+            url: "/1.1/statuses/update.json",
+            data: postBody,
           }).then(tweet => console.log('Posted tweet: "' + tweet.text + '"!'))
             .fail(err => console.log("Error: " + JSON.parse(err.responseText).errors[0].message));
       }});
@@ -105,7 +101,7 @@ const recognize = () => {
     tessedit_char_whitelist: 'QWERTYUIOPASDFGHJKLZXCVBNM,.qwertyuiopasdfghjklzxcvbnmÄäÖöÜüß?!-+\'1234567890' ,
   }).then((result) => {
     //console.log(">RESULT", result.text)
-    postBody = result.text;
+    postBody.status = result.text;
   })
 }
 
