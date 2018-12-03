@@ -13,10 +13,12 @@ OAuth.initialize('3JBEzStiurwZVNiGclBk1zlFrtA');
 
 // Constants
 const FRAMES_CAM = 100
-const FRAMES_OCR = 1000
+const FRAMES_OCR = 400
 
 const WIDTH = 640
 const HEIGHT = 480
+const CropHEIGHT = HEIGHT / 4;
+const CropLENGTH = HEIGHT / 2;
 const DIV = 6;
 const X = WIDTH/DIV, Y = HEIGHT/DIV, W = WIDTH - X*2, H = HEIGHT - Y*2;
 const TIMEOUT = 500; // give time to load jsFeat
@@ -87,8 +89,8 @@ const handleSuccess = (stream) => {
             .fail(err => console.log("Error: " + JSON.parse(err.responseText).errors[0].message));
       }});
   ctx = canvas.getContext('2d')
-  canvas.width = W
-  canvas.height = H
+  canvas.width = WIDTH
+  canvas.height = 120;
 
   window.stream = stream; // make stream available to browser console
   video.srcObject = stream
@@ -98,10 +100,11 @@ const handleSuccess = (stream) => {
 const recognize = () => {
   Tesseract.recognize(canvas, {
   	lang: 'deu',
-    tessedit_char_whitelist: 'QWERTYUIOPASDFGHJKLZXCVBNM,.qwertyuiopasdfghjklzxcvbnmÄäÖöÜüß?!-+\'1234567890' ,
+    tessedit_char_whitelist: 'QWERTYUIOPASDFGHJKLZXCVBNM,.qwertyuiopasdfghjklzxcvbnmÄäÖöÜüß?!:)' ,
   }).then((result) => {
     //console.log(">RESULT", result.text)
     postBody.status = result.text;
+    domResult.innerText = result.text;
   })
 }
 
@@ -110,36 +113,37 @@ const tick = () => {
   window.requestAnimationFrame(tick)
   if (ticks % FRAMES_CAM == 0){
     console.log("--- tick");
-    var myImage = new Image();
-    myImage.src = 'test1.jpg';
-    ctx.drawImage(myImage, 0, 0 , W, H, 0, 0, W, H);
+    //var myImage = new Image();
+    //myImage.src = 'test1.jpg';
+    //ctx.drawImage(myImage, 0, 0 , W, H, 0, 0, W, H);
     //ctx.drawImage(video, X, Y, W, H, 0, 0, W, H);
+    
+	ctx.drawImage(video, 0, CropHEIGHT, WIDTH, CropHEIGHT, 0, 0, WIDTH, CropHEIGHT);
+      filter();
   }
   if (ticks % FRAMES_OCR == 0) {
-    filter();
+    
     recognize();
   }
 }
 
 const filter = (s) => {
-    var imageData = ctx.getImageData(0, 0, W, H);
+    var imageData = ctx.getImageData(0, 0, WIDTH, CropHEIGHT);
     if (flag){
-      //imageData = Filters.grayscale(imageData);
+      imageData = Filters.grayscale(imageData);
       imageData = Filters.filterImage(Filters.convolute, imageData,
         [  0, -1,  0,
           -1,  5, -1,
            0, -1,  0 ]
-        // [-1, -1, -1,
-        //  -1,  document.querySelector("#sharpness").value, -1,
-        //  -1, -1, -1]
+//         [-1, -1, -1,
+//          -1,  9, -1,
+//          -1, -1, -1]
     );
   } else imageData = Filters.grayscale(imageData);
 
 
     if (document.querySelector("#range1").innerText !== document.querySelector("#threshold").value)
       document.querySelector("#range1").innerText = document.querySelector("#threshold").value;
-    if (document.querySelector("#range2").innerText !== document.querySelector("#sharpness").value)
-      document.querySelector("#range2").innerText = document.querySelector("#sharpness").value;
     Filters.threshold(imageData, document.querySelector("#threshold").value);
     ctx.putImageData(imageData, 0, 0);
 }

@@ -11,21 +11,22 @@
 </head>
 
 <body>
-  <video id="video" autoplay></video>
-  <ul>
-    <li>
-      <p id="range1">100: </p>
-      <input id="threshold" class="slider" type="range" min=0 max=255 value=90></input>
-    </li>
-    <li>
-      <p id="range2">10: </p>
-      <input id="sharpness" class="slider" type="range" min=-20 max=20 value=10></input>
-    </li>
-  </ul>
-  <button id="myBtn">Click me</button>
-  <canvas id="canvas"></canvas>
-  <div id='ocr'><h1>TE1ST</h1></div>
-  <canvas id="canv2"></canvas>
+   
+    <ul>
+        <li>
+            <video id="video" autoplay></video>
+        </li>
+        <li>
+            <canvas id="canvas"></canvas>
+        </li>
+    </ul>
+        
+        
+   
+  <p id="range1">100: </p>
+  <input id="threshold" class="slider" type="range" min=0 max=255 value=100></input>
+  <div id='ocr'><h1>Scanning...</h1></div>
+  <canvas id="canv2" style="display: none"></canvas>
 
 
 </body>

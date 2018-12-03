@@ -1,3 +1,19 @@
 p { display: inline-block;  }
-div { display: inline-block; }
-ul { display: inline-block; }
+#canv { display: inline-block; positio}
+
+canvas { display: inline-block; border-radius: 5px; vertical-align: top; margin-top: 200px;}
+video { display: inline-block; border-radius: 5px}
+li {
+    display: inline;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body {
+  padding-top: 40px;
+  text-align: center;
+  font-family: monaco, monospace;
+color: whitesmoke;
+   background-color: black;
+}
+
