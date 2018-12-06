@@ -9,4 +9,11 @@ Requirements:
   - OAuth (oauth.io) Public Key (requires a twitter app from twitter developer platform)
   
 Use case: 
-  Add your OAuth Public Key to "main.js" - "OAUTH_PUBLIC_KEY" -> Run "http-server" command from console in the repository folder locally -> Go to "127.0.0.1:8080" in a browser (Google Chrome) ->  Authorize your Twitter App -> Type on a typewriter or produce any other black-on-white text source -> Align the image with a webcam so it's centered -> Adjust the slider until the text is clear without noise (compare with text on bottom of the page) -> 'p' to see the POST-request body in the console, 'P' (Shift+p) to post the Tweet to your connected twitter account.
+  Add your OAuth Public Key to "main.js" - "OAUTH_PUBLIC_KEY" -> 
+  Run "http-server" command from console in the repository folder locally -> 
+  Go to "127.0.0.1:8080" in a browser (Google Chrome) ->  
+  Authorize your Twitter App -> 
+  Type on a typewriter or produce any other black-on-white text source -> 
+  Align the image with a webcam so it's centered -> 
+  Adjust the slider until the text is clear without noise (compare with text on bottom of the page) -> 
+  'p' to see the POST-request body in the console, 'P' (Shift+p) to post the Tweet to your connected twitter account
