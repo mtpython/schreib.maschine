@@ -2,16 +2,15 @@
 <html>
 
 <head>
-<title>Page Title</title>
+<title>SCHREIB.MASCHINE</title>
   <script src='tesseract.js'></script>
   <script src="oauth.js"></script>
   <script src='main.js'></script>
   <script src='filters.js'></script>
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-   
     <ul>
         <li>
             <video id="video" autoplay></video>
@@ -20,14 +19,11 @@
             <canvas id="canvas"></canvas>
         </li>
     </ul>
-        
-        
-   
+
   <p id="range1">100: </p>
   <input id="threshold" class="slider" type="range" min=0 max=255 value=100></input>
   <div id='ocr'><h1>Scanning...</h1></div>
   <canvas id="canv2" style="display: none"></canvas>
-
 
 </body>
 </html>
